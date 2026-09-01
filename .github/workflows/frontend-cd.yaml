@@ -94,7 +94,7 @@ jobs:
         env:
           ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
           IMAGE_TAG: ${{ github.sha }}
-          REACT_APP_MOVIE_API_URL: http://localhost:5000
+          REACT_APP_MOVIE_API_URL: http://ab71787fa4f72461abb18a31c5539788-1333580408.us-east-1.elb.amazonaws.com
         run: |
           docker build \
             --build-arg REACT_APP_MOVIE_API_URL="$REACT_APP_MOVIE_API_URL" \
