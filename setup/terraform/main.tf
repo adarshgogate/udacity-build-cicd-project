@@ -313,4 +313,34 @@ resource "aws_iam_user" "github_action_user" {
   name = "github-action-user"
 }
 
+resource "aws_iam_user_policy" "github_action_access" {
+  name = "GitHubActionsEKSAccess"
+  user = aws_iam_user.github_action_user.name
 
+  policy = jsonencode({
+    Version = "2012-10-17"
+    Statement = [
+      {
+        Effect = "Allow"
+        Action = [
+          "ecr:GetAuthorizationToken",
+          "ecr:BatchCheckLayerAvailability",
+          "ecr:GetDownloadUrlForLayer",
+          "ecr:BatchGetImage",
+          "ecr:PutImage",
+          "ecr:InitiateLayerUpload",
+          "ecr:UploadLayerPart",
+          "ecr:CompleteLayerUpload"
+        ]
+        Resource = "*"
+      },
+      {
+        Effect = "Allow"
+        Action = [
+          "eks:DescribeCluster"
+        ]
+        Resource = aws_eks_cluster.main.arn
+      }
+    ]
+  })
+}
